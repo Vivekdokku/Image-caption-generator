@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Caption Generator</title>
+    <style>
+      body {
+        background-color: #2d3436;
+        color: #ffffff;
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 10vh;
+      }
+
+      header {
+        background: linear-gradient(to right, #ed1847, #ff267e);
+
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        margin-bottom: 5px;
+        font-family: "Helvetica Neue", sans-serif;
+        font-size: 20px;
+        color: #ffffff;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .file-section {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .file-input {
+        background-color: #ff6b6b;
+        color: #ffffff;
+        padding: 15px;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        margin-top: 10px;
+        width: 80%;
+        box-sizing: border-box;
+        display: inline-block;
+      }
+
+      .file-label {
+        font-size: 16px;
+        color: #ffffff;
+        margin-bottom: 5px;
+      }
+
+      .file-placeholder {
+        color: #a0a0a0;
+      }
+
+      .button {
+        background-color: #10ac84;
+        color: #ffffff;
+        padding: 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        width: 100%;
+        box-sizing: border-box;
+        transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+      }
+
+      .button:hover {
+        background-color: #0c8969;
+      }
+
+      .load-image-button {
+        margin-top: 20px;
+      }
+
+      .sample-images {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+      }
+
+      .sample-images form {
+        flex-grow: 1;
+        margin-right: 5px;
+      }
+
+      .sample-images input[type="submit"] {
+        background-color: #ff9f43;
+        color: #ffffff;
+        padding: 10px;
+        font-size: 14px;
+        width: 100%;
+        box-sizing: border-box;
+        border: 2px solid #ff9f43;
+        border-radius: 5px;
+        transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+      }
+
+      .sample-images input[type="submit"]:hover {
+        background-color: #e67e22;
+        border-color: #e67e22;
+      }
+
+      img {
+        margin-top: 20px;
+        border: 2px solid #1dd1a1;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        max-width: 500px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+
+      .loading-message {
+        margin-top: 20px;
+        color: #1dd1a1;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      img:hover {
+        border-color: #10ac84;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      }
+
+      h2 {
+        color: #1dd1a1;
+        margin-top: 20px;
+        font-size: 24px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      .button {
+        background-color: #10ac84;
+        color: #ffffff;
+        padding: 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        width: 100%;
+        box-sizing: border-box;
+        transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+      }
+
+      .button:hover {
+        background-color: #0c8969;
+        transform: scale(1.1); /* Add scale animation on hover */
+      }
+      p {
+        color: #ffffff;
+        font-size: 18px;
+        line-height: 1.5;
+      }
+
+      button {
+        background-color: #ff9f43;
+        color: #ffffff;
+        padding: 10px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 14px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        transition: background-color 0.3s;
+      }
+
+      .random-image-button {
+        margin-top: 10px;
+      }
+
+      button:hover {
+        background-color: #e67e22;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Image Caption Generator</h1>
+    </header>
+
+    <main>
+      <div class="file-section">
+        <label class="file-label" for="file">Choose an image:</label>
+        <input
+          id="fileInput"
+          class="file-input"
+          type="file"
+          name="file"
+          accept=".jpg, .jpeg"
+          placeholder="Select an image"
+          onchange="loadImage(this)"
+        />
+      </div>
+
+      <div class="sample-images">
+        <form action="/" method="post">
+          <input
+            class="button"
+            type="submit"
+            name="sample_image"
+            value="Sample Image 1"
+          />
+        </form>
+
+        <form action="/" method="post">
+          <input
+            class="button"
+            type="submit"
+            name="sample_image"
+            value="Sample Image 2"
+          />
+        </form>
+
+        <form action="/" method="post">
+          <input
+            class="button"
+            type="submit"
+            name="sample_image"
+            value="Sample Image 3"
+          />
+        </form>
+      </div>
+
+      <form action="/" method="post">
+        <input
+          class="button random-image-button"
+          type="submit"
+          name="random_image"
+          value="Random Image"
+        />
+      </form>
+
+      <div id="result-container">
+        {% if processing %}
+        <p class="loading-message">Processing image...</p>
+        {% endif %} {% if image %}
+        <img src="{{ image }}" alt="Loaded Image" />
+        <br />
+        <form action="/generate_caption" method="post">
+          <input type="hidden" name="image_base64" value="{{ image }}" />
+          <input
+            class="button generate-caption-button"
+            type="submit"
+            value="Generate Captions"
+          />
+        </form>
+        {% endif %} {% if caption2 %}
+        <h2>Caption:</h2>
+        <p>{{ caption2 }}</p>
+        <button onclick="listen('{{ caption2 }}')">Listen</button>
+        {% endif %}
+      </div>
+    </main>
+
+    <script>
+      function loadImage(input) {
+        var resultContainer = document.getElementById("result-container");
+        var image = input.files[0];
+
+        if (image) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            resultContainer.innerHTML = `
+              <img src="${e.target.result}" alt="Loaded Image" />
+              <br />
+              <form action="/generate_caption" method="post">
+                <input type="hidden" name="image_base64" value="${e.target.result}" />
+                <input
+                  class="button generate-caption-button"
+                  type="submit"
+                  value="Generate Captions"
+                />
+              </form>`;
+          };
+          reader.readAsDataURL(image);
+        }
+      }
+      function listen(caption) {
+        var msg = new SpeechSynthesisUtterance(caption);
+        window.speechSynthesis.speak(msg);
+      }
+    </script>
+  </body>
+</html>
